@@ -72,6 +72,7 @@ public class EncryptionService {
         final String certficateFilePath = eConnectorsConnectionInfo.getCertificateClientFilename();
         final String certficateClientFilePath = eConnectorsConnectionInfo.getCertificateClientFilename();
         final int port = eConnectorsConnectionInfo.getPort();
+        final int transport = eConnectorsConnectionInfo.getTransport();
       }
     }
   }
@@ -118,6 +119,8 @@ public class EncryptionService {
               System.out.println("***********************");
               } **/
             }
+          } else {
+            logger.info("Password is not encrypted");
           }
         } else if (pass == null || pass.isEmpty()) {
           logger.info("Key is empty!");
