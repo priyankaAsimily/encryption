@@ -99,7 +99,7 @@ public class EncryptionService {
               System.out.println("***********************");
             }
           } else {
-            logger.info("Keys are not encypted, skip!");
+            logger.info("Keys are not encypted, skip!")
           }
         }
       }

@@ -1,6 +1,7 @@
 package com.asimily;
 
 import org.slf4j.Logger;
+
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.concurrent.Executor;
+import com.asimily.EncryptionService;
 
 import javax.annotation.PostConstruct;
 
@@ -33,7 +35,7 @@ public class ApplicationLoader extends SpringBootServletInitializer implements C
   EncryptionService encryptionService;
   
 	@Value("${optionName}")
-	private String p1pound;
+	private String optionName;
 	
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
