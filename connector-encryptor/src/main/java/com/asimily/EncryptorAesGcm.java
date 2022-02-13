@@ -136,10 +136,8 @@ public class EncryptorAesGcm {
         return decrypt(encryptedText, decryptedCustomerKey);
       }
       catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-        e.printStackTrace();
       }
       catch (Exception e) {
-        e.printStackTrace();
       }
     }
     return null;
