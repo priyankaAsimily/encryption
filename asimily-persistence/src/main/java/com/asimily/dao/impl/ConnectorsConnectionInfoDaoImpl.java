@@ -123,7 +123,7 @@ public class ConnectorsConnectionInfoDaoImpl extends PrimaryPersistenceContext i
   @Override
   public List<EConnectorsConnectionInfo> getAllConnectorConnection() {
     try {
-      Query q = entityManager.createQuery("select d from EConnectorsConnectionInfo");
+      Query q = entityManager.createQuery("select d from EConnectorsConnectionInfo d");
       List<EConnectorsConnectionInfo> eConnectorsConnectionInfoList = q.getResultList();
       if(!eConnectorsConnectionInfoList.isEmpty()) {
         return eConnectorsConnectionInfoList;

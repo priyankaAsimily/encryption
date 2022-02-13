@@ -34,8 +34,8 @@ public class ApplicationLoader extends SpringBootServletInitializer implements C
   @Autowired
   EncryptionService encryptionService;
   
-	@Value("${optionName}")
-	private String optionName;
+	@Value("${option}")
+	private String option;
 	
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -47,8 +47,8 @@ public class ApplicationLoader extends SpringBootServletInitializer implements C
 
   public void run(String... arg0) throws Exception {
     logger.info("********************entered application...");
-    System.out.println(optionName);
-    encryptionService.serve(optionName);
+    System.out.println(option);
+    encryptionService.serve(option);
   }
 
   @Override
