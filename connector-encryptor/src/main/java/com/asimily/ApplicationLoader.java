@@ -29,8 +29,11 @@ import javax.annotation.PostConstruct;
 @EnableAsync
 public class ApplicationLoader extends SpringBootServletInitializer implements CommandLineRunner {
 	
-	@Value("${priceOne.pound}")
-	private Integer p1pound;
+  @Autowired
+  EncryptionService encryptionService;
+  
+	@Value("${optionName}")
+	private String p1pound;
 	
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -42,7 +45,8 @@ public class ApplicationLoader extends SpringBootServletInitializer implements C
 
   public void run(String... arg0) throws Exception {
     logger.info("********************entered application...");
-    System.out.println(p1pound);
+    System.out.println(optionName);
+    encryptionService.serve(optionName);
   }
 
   @Override

@@ -9,4 +9,5 @@ public interface ConnectorsConnectionInfoDaoCustom {
   EConnectorsConnectionInfo getByConnectorAndConnectionTypeWithoutCustomerId(String connectorCategory, String connectorName, Integer connectionTypeId);
   Boolean checkByConnectorNameAndConnectionCategory(String connectorName,String connectionCatogory);
   EConnectorsConnectionInfo findByConnectorsConnectionInfoId(Integer id);
+  List<EConnectorsConnectionInfo> getAllConnectorConnection();
 }

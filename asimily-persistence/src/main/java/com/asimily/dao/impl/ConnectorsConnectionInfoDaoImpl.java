@@ -119,4 +119,20 @@ public class ConnectorsConnectionInfoDaoImpl extends PrimaryPersistenceContext i
       throw new AsimilyDataException("ConnectorsConnectionInfoDaoImpl.EConnectorsConnectionInfo Exception: " + e.getMessage());
     }
   }
+  
+  @Override
+  List<EConnectorsConnectionInfo> getAllConnectorConnection() {
+    try {
+      Query q = entityManager.createQuery("select d from EConnectorsConnectionInfo");
+      List<EConnectorsConnectionInfo> eConnectorsConnectionInfoList = q.getResultList();
+      if(!eConnectorsConnectionInfoList.isEmpty()) {
+        return eConnectorsConnectionInfoList;
+      } else {
+        return null;
+      }
+    } catch (Exception e) {
+      logger.error("Returned getAllConnectorConnection Exception: {}", e.getMessage());
+      return null;
+    }
+  }
 }
