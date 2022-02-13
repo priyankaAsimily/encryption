@@ -87,7 +87,7 @@ public class EncryptionService {
             logger.info("Password is decrypted..");
             
             while (decryptedPass != null) {
-              decryptedPass = encryptorAesGcm.decrypt(eConnectorsConnectionInfo.getPassword(), FIELD_CUSTOMER_ID);
+              decryptedPass = encryptorAesGcm.decrypt(decryptedPass, FIELD_CUSTOMER_ID);
               logger.info("Password is encrypted multiple times : " + decryptedPass);
             }
             logger.info("AAA unencrypted password : " + decryptedPass);
