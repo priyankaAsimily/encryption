@@ -73,6 +73,7 @@ public class EncryptionService {
         final String certficateClientFilePath = eConnectorsConnectionInfo.getCertificateClientFilename();
         final int port = eConnectorsConnectionInfo.getPort();
         final int transport = eConnectorsConnectionInfo.getTransport();
+        final String configuration = eConnectorsConnectionInfo.getConfiguration();
       }
     }
   }
@@ -94,19 +95,15 @@ public class EncryptionService {
             logger.info("Decrypting... ");
 
             boolean doubleEncrypted = false;
+            int count = 1;
             while (decryptedPass != null) {
               password = decryptedPass;
               decryptedPass = encryptorAesGcm.decrypt(decryptedPass, FIELD_CUSTOMER_ID);
-              logger.info("Password is encrypted multiple times : " + password);
+              logger.info("Password is encrypted multiple times : " + ++count);
               doubleEncrypted = true;
             }
             if (!doubleEncrypted) {
-              final String encryptedText = encryptorAesGcm.encryptKeys(password, FIELD_CUSTOMER_ID);
-              if (encryptedText != null && !encryptedText.isEmpty()) {
-                eConnectorsConnectionInfo.setPassword(encryptedText);
-                // connectorsConnectionInfoDaoManager.saveConnection(eConnectorsConnectionInfo);
-                logger.info("Password encrypted and saved : " + encryptedText);
-              }
+              logger.info("Password is already encrypted ");
             } else {
               // Show error or fix.
               /** logger.info("AAA unencrypted password : " + password);
@@ -121,6 +118,12 @@ public class EncryptionService {
             }
           } else {
             logger.info("Password is not encrypted");
+            final String encryptedText = encryptorAesGcm.encryptKeys(pass, FIELD_CUSTOMER_ID);
+            if (encryptedText != null && !encryptedText.isEmpty()) {
+              eConnectorsConnectionInfo.setPassword(encryptedText);
+              // connectorsConnectionInfoDaoManager.saveConnection(eConnectorsConnectionInfo);
+              logger.info("Password encrypted and saved : " + encryptedText);
+            }
           }
         } else if (pass == null || pass.isEmpty()) {
           logger.info("Key is empty!");
