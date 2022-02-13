@@ -79,14 +79,14 @@ public class EncryptionService {
         EMasterKeys eMasterKeys = masterKeysDao.findByCustomerId(FIELD_CUSTOMER_ID);
         ECustomerKeys eCustomerKeys = customerKeysDao.findByCustomerId(FIELD_CUSTOMER_ID);
 
-        if (eMasterKeys != null && eCustomerKeys != null) {
+        if (eMasterKeys != null && eCustomerKeys != null && pass != null && !pass.isEmpty()) {
           
           // Check if password encrypted
           String decryptedPass = encryptorAesGcm.decrypt(eConnectorsConnectionInfo.getPassword(), FIELD_CUSTOMER_ID);
           if (decryptedPass != null && !decryptedPass.isEmpty()) {
             logger.info("Password is decrypted..");
             
-            while (decryptedPass != null && !decryptedPass.isEmpty()) {
+            while (decryptedPass != null) {
               decryptedPass = encryptorAesGcm.decrypt(eConnectorsConnectionInfo.getPassword(), FIELD_CUSTOMER_ID);
               logger.info("Password is encrypted multiple times");
             }
