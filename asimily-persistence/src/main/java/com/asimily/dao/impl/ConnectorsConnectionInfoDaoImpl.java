@@ -121,7 +121,7 @@ public class ConnectorsConnectionInfoDaoImpl extends PrimaryPersistenceContext i
   }
   
   @Override
-  List<EConnectorsConnectionInfo> getAllConnectorConnection() {
+  public List<EConnectorsConnectionInfo> getAllConnectorConnection() {
     try {
       Query q = entityManager.createQuery("select d from EConnectorsConnectionInfo");
       List<EConnectorsConnectionInfo> eConnectorsConnectionInfoList = q.getResultList();

@@ -1,4 +1,4 @@
-package com.asimily.common;
+package com.asimily;
 
 
 import javax.crypto.KeyGenerator;

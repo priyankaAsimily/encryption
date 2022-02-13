@@ -1,5 +1,7 @@
 package com.asimily.dao;
 
+import java.util.List;
+
 import com.asimily.models.EConnectorsConnectionInfo;
 
 public interface ConnectorsConnectionInfoDaoCustom {
