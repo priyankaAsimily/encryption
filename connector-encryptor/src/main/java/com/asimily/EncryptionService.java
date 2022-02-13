@@ -84,14 +84,16 @@ public class EncryptionService {
           // Check if password encrypted
           String decryptedPass = encryptorAesGcm.decrypt(eConnectorsConnectionInfo.getPassword(), FIELD_CUSTOMER_ID);
           if (decryptedPass != null && !decryptedPass.isEmpty()) {
-            logger.info("Password is decrypted..");
+            String password = decryptedPass;
+            logger.info("Password is decrypted.. " + decryptedPass);
             
             while (decryptedPass != null) {
+              password = decryptedPass;
               decryptedPass = encryptorAesGcm.decrypt(decryptedPass, FIELD_CUSTOMER_ID);
               logger.info("Password is encrypted multiple times : " + decryptedPass);
             }
-            logger.info("AAA unencrypted password : " + decryptedPass);
-            final String encryptedText = encryptorAesGcm.encryptKeys(decryptedPass, FIELD_CUSTOMER_ID);
+            logger.info("AAA unencrypted password : " + password);
+            final String encryptedText = encryptorAesGcm.encryptKeys(password, FIELD_CUSTOMER_ID);
             if (encryptedText != null && !encryptedText.isEmpty()) {
               System.out.println("***********************");
               eConnectorsConnectionInfo.setPassword(encryptedText);
