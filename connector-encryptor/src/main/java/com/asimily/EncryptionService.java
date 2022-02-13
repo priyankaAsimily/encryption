@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.asimily.dao.ConnectorsConnectionInfoDao;
+import com.asimily.dao.ConnectorsDao;
 import com.asimily.dao.CustomerKeysDao;
 import com.asimily.dao.MasterKeysDao;
 import com.asimily.daomgr.ConnectorsConnectionInfoDaoManager;
@@ -39,6 +40,9 @@ public class EncryptionService {
   @Autowired
   EncryptorAesGcm encryptorAesGcm;
 
+  @Autowired
+  ConnectorsDao connectorsDao;
+  
   private final Logger logger = LoggerFactory.getLogger(this.getClass());
   private static final String FIELD_DECRYPT = "decrypt";
   private static final String FIELD_ENCRYPT = "encrypt";
@@ -57,7 +61,10 @@ public class EncryptionService {
     List<EConnectorsConnectionInfo> eConnectorsConnectionInfos = connectorsConnectionInfoDao.getAllConnectorConnection();
     if (eConnectorsConnectionInfos != null && !eConnectorsConnectionInfos.isEmpty()) {
       for (EConnectorsConnectionInfo eConnectorsConnectionInfo : eConnectorsConnectionInfos) {
-
+        logger.info("************");
+        final int id = eConnectorsConnectionInfo.getId();
+        final String connector = connectorsDao.findByEConnectorsId(eConnectorsConnectionInfo.getConnectorId()).getConnectorName();
+      
       }
     }
   }
@@ -106,8 +113,7 @@ public class EncryptionService {
               } **/
             }
           }
-        }
-        else if (pass != null && !pass.isEmpty()) {
+        } else if (pass == null || pass.isEmpty()) {
           logger.info("Keys are not encypted!");
           final String encryptedText = encryptorAesGcm.encryptKeys(pass, FIELD_CUSTOMER_ID);
           if (encryptedText != null && !encryptedText.isEmpty()) {
