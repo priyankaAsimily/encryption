@@ -107,9 +107,10 @@ public class EncryptionService {
               System.out.println("***********************");
             }
           }
-          else {
-            logger.info("Keys are not encypted!");
-            final String encryptedText = encryptorAesGcm.encryptKeys(decryptedPass, FIELD_CUSTOMER_ID);
+        } else {
+          logger.info("Keys are not encypted!");
+          if (pass != null && !pass.isEmpty()) {
+            final String encryptedText = encryptorAesGcm.encryptKeys(pass, FIELD_CUSTOMER_ID);
             if (encryptedText != null && !encryptedText.isEmpty()) {
               eConnectorsConnectionInfo.setPassword(encryptedText);
               // connectorsConnectionInfoDaoManager.saveConnection(eConnectorsConnectionInfo);
