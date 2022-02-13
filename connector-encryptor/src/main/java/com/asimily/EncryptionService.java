@@ -49,24 +49,16 @@ public class EncryptionService {
       encrypt();
     }
     else if (!option.isEmpty() && FIELD_DECRYPT.equalsIgnoreCase(option)) {
-      // System.out.println("Enter encrypted text to decrypt");
-      // String encyptedText = sc.next();
-      // System.out.println("Enter encrypted master key. You'll find it in schema:customer_config & table:master_keys");
-      // String masterKey = sc.next();
-      // System.out.println("Enter encrypted customer key. You'll find it in schema:customer_config & table:customer_keys");
-      // String customerKey = sc.next();
-      //
-      // String decryptedText = encryptorAesGcm.decrypt(encyptedText, customerKey, masterKey);
-      // if (decryptedText != null && !decryptedText.isEmpty()) {
-      // System.out.println("***********************");
-      // System.out.println("Decrypted key : " + decryptedText);
-      // System.out.println("***********************");
-      // }
-      // else {
-      // System.out.println("***********************");
-      // System.out.println("Decryption failed");
-      // System.out.println("***********************");
-      // }
+      decrypt();
+    }
+  }
+
+  private void decrypt() {
+    List<EConnectorsConnectionInfo> eConnectorsConnectionInfos = connectorsConnectionInfoDao.getAllConnectorConnection();
+    if (eConnectorsConnectionInfos != null && !eConnectorsConnectionInfos.isEmpty()) {
+      for (EConnectorsConnectionInfo eConnectorsConnectionInfo : eConnectorsConnectionInfos) {
+
+      }
     }
   }
 
@@ -87,35 +79,41 @@ public class EncryptionService {
             String password = decryptedPass;
             logger.info("Password is decrypted.. " + decryptedPass);
 
+            boolean doubleEncrypted = false;
             while (decryptedPass != null) {
               password = decryptedPass;
               decryptedPass = encryptorAesGcm.decrypt(decryptedPass, FIELD_CUSTOMER_ID);
-              logger.info("Password is encrypted multiple times : " + decryptedPass);
+              logger.info("Password is encrypted multiple times : " + password);
+              doubleEncrypted = true;
             }
-            logger.info("AAA unencrypted password : " + password);
-            final String encryptedText = encryptorAesGcm.encryptKeys(password, FIELD_CUSTOMER_ID);
-            if (encryptedText != null && !encryptedText.isEmpty()) {
+            if (!doubleEncrypted) {
+              final String encryptedText = encryptorAesGcm.encryptKeys(password, FIELD_CUSTOMER_ID);
+              if (encryptedText != null && !encryptedText.isEmpty()) {
+                eConnectorsConnectionInfo.setPassword(encryptedText);
+                // connectorsConnectionInfoDaoManager.saveConnection(eConnectorsConnectionInfo);
+                logger.info("Password encrypted and saved : " + encryptedText);
+              }
+            } else {
+              // Show error or fix.
+              /** logger.info("AAA unencrypted password : " + password);
+              final String encryptedText = encryptorAesGcm.encryptKeys(password, FIELD_CUSTOMER_ID);
+              if (encryptedText != null && !encryptedText.isEmpty()) {
               System.out.println("***********************");
               eConnectorsConnectionInfo.setPassword(encryptedText);
               // connectorsConnectionInfoDaoManager.saveConnection(eConnectorsConnectionInfo);
               logger.info("Password encrypted and saved : " + encryptedText);
               System.out.println("***********************");
-            }
-            else {
-              System.out.println("***********************");
-              System.out.println("Encyption failed");
-              System.out.println("***********************");
+              } **/
             }
           }
-        } else {
+        }
+        else if (pass != null && !pass.isEmpty()) {
           logger.info("Keys are not encypted!");
-          if (pass != null && !pass.isEmpty()) {
-            final String encryptedText = encryptorAesGcm.encryptKeys(pass, FIELD_CUSTOMER_ID);
-            if (encryptedText != null && !encryptedText.isEmpty()) {
-              eConnectorsConnectionInfo.setPassword(encryptedText);
-              // connectorsConnectionInfoDaoManager.saveConnection(eConnectorsConnectionInfo);
-              logger.info("Password encrypted and saved : " + encryptedText);
-            }
+          final String encryptedText = encryptorAesGcm.encryptKeys(pass, FIELD_CUSTOMER_ID);
+          if (encryptedText != null && !encryptedText.isEmpty()) {
+            eConnectorsConnectionInfo.setPassword(encryptedText);
+            // connectorsConnectionInfoDaoManager.saveConnection(eConnectorsConnectionInfo);
+            logger.info("Password encrypted and saved : " + encryptedText);
           }
         }
       }
