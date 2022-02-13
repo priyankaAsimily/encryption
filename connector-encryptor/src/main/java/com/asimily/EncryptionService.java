@@ -64,7 +64,14 @@ public class EncryptionService {
         logger.info("************");
         final int id = eConnectorsConnectionInfo.getId();
         final String connector = connectorsDao.findByEConnectorsId(eConnectorsConnectionInfo.getConnectorId()).getConnectorName();
-      
+        final String host1 = eConnectorsConnectionInfo.getHost1();
+        final String host2 = eConnectorsConnectionInfo.getHost2();
+        final String userName = eConnectorsConnectionInfo.getUsername();
+        String pass = eConnectorsConnectionInfo.getPassword();
+        final String certficatePass = eConnectorsConnectionInfo.getCertificatePassword();
+        final String certficateFilePath = eConnectorsConnectionInfo.getCertificateClientFilename();
+        final String certficateClientFilePath = eConnectorsConnectionInfo.getCertificateClientFilename();
+        final int port = eConnectorsConnectionInfo.getPort();
       }
     }
   }
@@ -114,13 +121,7 @@ public class EncryptionService {
             }
           }
         } else if (pass == null || pass.isEmpty()) {
-          logger.info("Keys are not encypted!");
-          final String encryptedText = encryptorAesGcm.encryptKeys(pass, FIELD_CUSTOMER_ID);
-          if (encryptedText != null && !encryptedText.isEmpty()) {
-            eConnectorsConnectionInfo.setPassword(encryptedText);
-            // connectorsConnectionInfoDaoManager.saveConnection(eConnectorsConnectionInfo);
-            logger.info("Password encrypted and saved : " + encryptedText);
-          }
+          logger.info("Key is empty!");
         }
       }
     }
