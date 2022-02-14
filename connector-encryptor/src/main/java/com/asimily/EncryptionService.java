@@ -160,6 +160,9 @@ public class EncryptionService {
       FileWriter myWriter = null;
       try {
         myWriter = new FileWriter("EncryptedConnectors.txt");
+        myWriter.write("\n***********************");
+        myWriter.write("\nNewly Encrypted Passwords");
+        myWriter.write("\n***********************\n\n");
       }
       catch (IOException e) {
         // TODO Auto-generated catch block
@@ -217,6 +220,9 @@ public class EncryptionService {
         }
       }
       try {
+        myWriter.write("\n\n***********************");
+        myWriter.write("\nPlease save it securely.");
+        myWriter.write("\n***********************");
         myWriter.close();
       }
       catch (IOException e) {
