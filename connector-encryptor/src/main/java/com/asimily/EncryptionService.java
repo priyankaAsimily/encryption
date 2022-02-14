@@ -85,7 +85,9 @@ public class EncryptionService {
         final String certficateFilePath = eConnectorsConnectionInfo.getCertificateClientFilename();
         final String certficateClientFilePath = eConnectorsConnectionInfo.getCertificateClientFilename();
         final String port = eConnectorsConnectionInfo.getPort() != null ? eConnectorsConnectionInfo.getPort().toString() : "";
-        final String transport = eConnectorsConnectionInfo.getTransport() != null ? eConnectorsConnectionInfo.getTransport().toString() : "";
+        final String transport = eConnectorsConnectionInfo.getTransport() != null
+            ? eConnectorsConnectionInfo.getTransport().toString()
+            : "";
         final String configuration = eConnectorsConnectionInfo.getConfiguration();
 
         EMasterKeys eMasterKeys = masterKeysDao.findByCustomerId(FIELD_CUSTOMER_ID);
@@ -108,10 +110,12 @@ public class EncryptionService {
             if (count > 1) {
               logger.info("Password is encrypted multiple times : " + count);
             }
-          } else {
+          }
+          else {
             logger.info("Decrypted : " + connector);
           }
-        } else if (pass == null || pass.isEmpty()) {
+        }
+        else if (pass == null || pass.isEmpty()) {
           logger.info(connector + " : Password is empty");
         }
 
@@ -169,7 +173,7 @@ public class EncryptionService {
 
         String pass = eConnectorsConnectionInfo.getPassword();
         final String connector = connectorsDao.findByEConnectorsId(eConnectorsConnectionInfo.getConnectorId()).getConnectorName();
-        
+
         if (eMasterKeys != null && eCustomerKeys != null && pass != null && !pass.isEmpty()) {
           // Check if password encrypted
           String decryptedPass = encryptorAesGcm.decrypt(eConnectorsConnectionInfo.getPassword(), FIELD_CUSTOMER_ID);
@@ -185,37 +189,30 @@ public class EncryptionService {
             }
             if (count == 1) {
               logger.info(connector + " : Password is already encrypted ");
-            } else {
+            }
+            else {
               logger.info("ERROR: Password encrypted more than once : " + count + " times");
               final String encryptedText = encryptorAesGcm.encryptKeys(password, FIELD_CUSTOMER_ID);
               if (encryptedText != null && !encryptedText.isEmpty()) {
-              eConnectorsConnectionInfo.setPassword(encryptedText);
-              // connectorsConnectionInfoDaoManager.saveConnection(eConnectorsConnectionInfo);
-              try {
-                if (myWriter != null) {
-                  myWriter.write("\n ************");
-                  myWriter.write("\n Connector : " + connector);
-                  myWriter.write("\n Password : " + password);
-                  myWriter.write("\n ************ \n");
-                }
-              }
-              catch (IOException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-              }
-              logger.info(connector + " : Password encrypted and saved");
+                eConnectorsConnectionInfo.setPassword(encryptedText);
+                // connectorsConnectionInfoDaoManager.saveConnection(eConnectorsConnectionInfo);
+                addConnectorDetails(myWriter, connector, password);
+                logger.info(connector + " : Password encrypted and saved");
               }
             }
-          } else {
+          }
+          else {
             logger.info(connector + " : Password is not encrypted");
             final String encryptedText = encryptorAesGcm.encryptKeys(pass, FIELD_CUSTOMER_ID);
             if (encryptedText != null && !encryptedText.isEmpty()) {
               eConnectorsConnectionInfo.setPassword(encryptedText);
               // connectorsConnectionInfoDaoManager.saveConnection(eConnectorsConnectionInfo);
               logger.info("Password encrypted & saved : " + encryptedText);
+              addConnectorDetails(myWriter, connector, pass);
             }
           }
-        } else if (pass == null || pass.isEmpty()) {
+        }
+        else if (pass == null || pass.isEmpty()) {
           logger.info(connector + " : Password is empty");
         }
       }
@@ -227,6 +224,21 @@ public class EncryptionService {
         e.printStackTrace();
       }
       logger.info("Passwords that are encrypted now are stored in : EncryptedConnectors.txt");
+    }
+  }
+
+  private void addConnectorDetails(FileWriter myWriter, String connector, String password) {
+    try {
+      if (myWriter != null) {
+        myWriter.write("\n ************");
+        myWriter.write("\n Connector : " + connector);
+        myWriter.write("\n Password : " + password);
+        myWriter.write("\n ************ \n");
+      }
+    }
+    catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
     }
   }
 }
