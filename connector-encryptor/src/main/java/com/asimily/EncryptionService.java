@@ -159,7 +159,7 @@ public class EncryptionService {
       ECustomerKeys eCustomerKeys = customerKeysDao.findByCustomerId(FIELD_CUSTOMER_ID);
 
       for (EConnectorsConnectionInfo eConnectorsConnectionInfo : eConnectorsConnectionInfos) {
-        logger.info("\n ************");
+        logger.info("---------");
         String pass = eConnectorsConnectionInfo.getPassword();
         final String connector = connectorsDao.findByEConnectorsId(eConnectorsConnectionInfo.getConnectorId()).getConnectorName();
         
