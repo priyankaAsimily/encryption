@@ -99,19 +99,19 @@ public class EncryptionService {
             password = decryptedPass;
             logger.info("Checking... " + connector);
 
-            boolean doubleEncrypted = false;
+            boolean isDoubleEncrypted = false;
             int count = 1;
             while (decryptedPass != null) {
               password = decryptedPass;
               decryptedPass = encryptorAesGcm.decrypt(decryptedPass, FIELD_CUSTOMER_ID);
               logger.info("Password is encrypted multiple times : " + ++count);
-              doubleEncrypted = true;
+              isDoubleEncrypted = true;
             }
-            if (doubleEncrypted) {
+            if (isDoubleEncrypted) {
               logger.info("****** ERROR: Password encrypted more than once for " + connector + " *******");
               logger.info("The correct password : " + password);
             } else {
-              logger.info("Already encrypted");
+              logger.info("Decrypted : " + connector);
             }
           }
         } else if (pass == null || pass.isEmpty()) {
