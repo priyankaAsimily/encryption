@@ -104,11 +104,11 @@ public class EncryptionService {
             while (decryptedPass != null) {
               password = decryptedPass;
               decryptedPass = encryptorAesGcm.decrypt(decryptedPass, FIELD_CUSTOMER_ID);
-              logger.info("Password is encrypted multiple times : " + ++count);
+              count++;
               isDoubleEncrypted = true;
             }
             if (isDoubleEncrypted) {
-              logger.info("****** ERROR: Password encrypted more than once for " + connector + " *******");
+              logger.info("Password is encrypted multiple times : " + count);
               logger.info("The correct password : " + password);
             }
           } else {
