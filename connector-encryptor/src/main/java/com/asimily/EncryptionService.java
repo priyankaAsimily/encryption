@@ -181,7 +181,7 @@ public class EncryptionService {
               logger.info("Password is already encrypted ");
             }
             else {
-              logger.info("Error: Password encrypted more than once : " + count + " times");
+              logger.info("ERROR: Password encrypted more than once : " + count + " times");
               // Show error or fix.
               /** logger.info("AAA unencrypted password : " + password);
               final String encryptedText = encryptorAesGcm.encryptKeys(password, FIELD_CUSTOMER_ID);
@@ -205,7 +205,7 @@ public class EncryptionService {
           }
         }
         else if (pass == null || pass.isEmpty()) {
-          logger.info("Key is empty!");
+          logger.info("Password is empty for " + connector);
         }
       }
     }
