@@ -110,9 +110,9 @@ public class EncryptionService {
             if (isDoubleEncrypted) {
               logger.info("****** ERROR: Password encrypted more than once for " + connector + " *******");
               logger.info("The correct password : " + password);
-            } else {
-              logger.info("Decrypted : " + connector);
             }
+          } else {
+            logger.info("Decrypted : " + connector);
           }
         } else if (pass == null || pass.isEmpty()) {
           logger.info(connector + " : Password is empty");
