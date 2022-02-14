@@ -110,11 +110,12 @@ public class EncryptionService {
             if (doubleEncrypted) {
               logger.info("****** ERROR: Password encrypted more than once for " + connector + " *******");
               logger.info("The correct password : " + password);
+            } else {
+              logger.info("Already encrypted");
             }
           }
-        }
-        else {
-          logger.info("Password is not encrypted for connector : " + connector);
+        } else if (pass == null || pass.isEmpty()) {
+          logger.info(connector + " : Password is empty");
         }
 
         try {
@@ -197,7 +198,7 @@ public class EncryptionService {
             if (encryptedText != null && !encryptedText.isEmpty()) {
               eConnectorsConnectionInfo.setPassword(encryptedText);
               // connectorsConnectionInfoDaoManager.saveConnection(eConnectorsConnectionInfo);
-              logger.info("Password encrypted and saved : " + encryptedText);
+              logger.info("Password encrypted once & saved : " + encryptedText);
             }
           }
         }
