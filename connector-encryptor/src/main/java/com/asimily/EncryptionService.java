@@ -66,7 +66,7 @@ public class EncryptionService {
 
       FileWriter myWriter = null;
       try {
-        myWriter = new FileWriter("connector.txt");
+        myWriter = new FileWriter("connectorDetails.txt");
       }
       catch (IOException e) {
         // TODO Auto-generated catch block
@@ -149,7 +149,7 @@ public class EncryptionService {
         // TODO Auto-generated catch block
         e.printStackTrace();
       }
-      System.out.println("Successfully wrote to the file.");
+      System.out.println("Successfully wrote to the file : connectorDetails.txt" );
     }
 
   }
@@ -195,7 +195,7 @@ public class EncryptionService {
               final String encryptedText = encryptorAesGcm.encryptKeys(password, FIELD_CUSTOMER_ID);
               if (encryptedText != null && !encryptedText.isEmpty()) {
                 eConnectorsConnectionInfo.setPassword(encryptedText);
-                // connectorsConnectionInfoDaoManager.saveConnection(eConnectorsConnectionInfo);
+                 connectorsConnectionInfoDaoManager.saveConnection(eConnectorsConnectionInfo);
                 addConnectorDetails(myWriter, connector, password);
                 logger.info(connector + " : Password encrypted and saved");
               }
@@ -206,7 +206,7 @@ public class EncryptionService {
             final String encryptedText = encryptorAesGcm.encryptKeys(pass, FIELD_CUSTOMER_ID);
             if (encryptedText != null && !encryptedText.isEmpty()) {
               eConnectorsConnectionInfo.setPassword(encryptedText);
-              // connectorsConnectionInfoDaoManager.saveConnection(eConnectorsConnectionInfo);
+               connectorsConnectionInfoDaoManager.saveConnection(eConnectorsConnectionInfo);
               logger.info("Password encrypted & saved : " + encryptedText);
               addConnectorDetails(myWriter, connector, pass);
             }
