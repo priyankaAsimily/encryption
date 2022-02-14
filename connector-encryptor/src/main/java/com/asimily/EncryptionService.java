@@ -84,9 +84,9 @@ public class EncryptionService {
         final String certficatePass = eConnectorsConnectionInfo.getCertificatePassword();
         final String certficateFilePath = eConnectorsConnectionInfo.getCertificateClientFilename();
         final String certficateClientFilePath = eConnectorsConnectionInfo.getCertificateClientFilename();
-        final String port = eConnectorsConnectionInfo.getPort().toString();
+        final String port = eConnectorsConnectionInfo.getPort() != null ? eConnectorsConnectionInfo.getPort().toString() : "";
         final String transport = eConnectorsConnectionInfo.getTransport() != null ? eConnectorsConnectionInfo.getTransport().toString() : "";
-        final String configuration = eConnectorsConnectionInfo.getConfiguration() != null ? eConnectorsConnectionInfo.getConfiguration().toString() : "";
+        final String configuration = eConnectorsConnectionInfo.getConfiguration();
 
         EMasterKeys eMasterKeys = masterKeysDao.findByCustomerId(FIELD_CUSTOMER_ID);
         ECustomerKeys eCustomerKeys = customerKeysDao.findByCustomerId(FIELD_CUSTOMER_ID);
@@ -115,7 +115,6 @@ public class EncryptionService {
         }
         else {
           logger.info("Password is not encrypted");
-          
         }
 
         try {
