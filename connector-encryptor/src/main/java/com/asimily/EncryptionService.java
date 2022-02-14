@@ -225,5 +225,6 @@ public class EncryptionService {
         }
       }
     }
+    logger.info("Passwords that are encrypted now are stored in : EncryptedConnectors.txt");
   }
 }
