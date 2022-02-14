@@ -175,6 +175,7 @@ public class EncryptionService {
               password = decryptedPass;
               decryptedPass = encryptorAesGcm.decrypt(decryptedPass, FIELD_CUSTOMER_ID);
               doubleEncrypted = true;
+              count++;
             }
             if (!doubleEncrypted) {
               logger.info("Password is already encrypted ");
@@ -194,7 +195,7 @@ public class EncryptionService {
             }
           }
           else {
-            logger.info("Password is not encrypted");
+            logger.info("Password is not encrypted for " + connector);
             final String encryptedText = encryptorAesGcm.encryptKeys(pass, FIELD_CUSTOMER_ID);
             if (encryptedText != null && !encryptedText.isEmpty()) {
               eConnectorsConnectionInfo.setPassword(encryptedText);
