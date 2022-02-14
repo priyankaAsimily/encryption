@@ -84,18 +84,19 @@ public class EncryptionService {
         final String certficatePass = eConnectorsConnectionInfo.getCertificatePassword();
         final String certficateFilePath = eConnectorsConnectionInfo.getCertificateClientFilename();
         final String certficateClientFilePath = eConnectorsConnectionInfo.getCertificateClientFilename();
-        final int port = eConnectorsConnectionInfo.getPort();
-        final int transport = eConnectorsConnectionInfo.getTransport();
+        final String port = eConnectorsConnectionInfo.getPort().toString();
+        final String transport = eConnectorsConnectionInfo.getTransport().toString();
         final String configuration = eConnectorsConnectionInfo.getConfiguration();
 
         EMasterKeys eMasterKeys = masterKeysDao.findByCustomerId(FIELD_CUSTOMER_ID);
         ECustomerKeys eCustomerKeys = customerKeysDao.findByCustomerId(FIELD_CUSTOMER_ID);
         String decryptedPass = pass;
+        String password = pass;
         if (eMasterKeys != null && eCustomerKeys != null && pass != null && !pass.isEmpty()) {
           // Check if password encrypted
           decryptedPass = encryptorAesGcm.decrypt(eConnectorsConnectionInfo.getPassword(), FIELD_CUSTOMER_ID);
           if (decryptedPass != null && !decryptedPass.isEmpty()) {
-            String password = decryptedPass;
+            password = decryptedPass;
             logger.info("Checking... " + eConnectorsConnectionInfo.getId());
 
             boolean doubleEncrypted = false;
@@ -108,12 +109,13 @@ public class EncryptionService {
             }
             if (doubleEncrypted) {
               logger.info("****** ERROR: Password encrypted more than once for " + connector + " *******");
-              logger.info("The correct password : " + decryptedPass);
+              logger.info("The correct password : " + password);
             }
           }
         }
         else {
           logger.info("Password is not encrypted");
+          
         }
 
         try {
