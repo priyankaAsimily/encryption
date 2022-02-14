@@ -99,17 +99,14 @@ public class EncryptionService {
             password = decryptedPass;
             logger.info("Checking... " + connector);
 
-            boolean isDoubleEncrypted = false;
-            int count = 1;
+            int count = 0;
             while (decryptedPass != null) {
               password = decryptedPass;
               decryptedPass = encryptorAesGcm.decrypt(decryptedPass, FIELD_CUSTOMER_ID);
               count++;
-              isDoubleEncrypted = true;
             }
-            if (isDoubleEncrypted) {
+            if (count > 1) {
               logger.info("Password is encrypted multiple times : " + count);
-//              logger.info("The correct password : " + password);
             }
           } else {
             logger.info("Decrypted : " + connector);
@@ -180,15 +177,13 @@ public class EncryptionService {
             String password = decryptedPass;
             logger.info("Connector :  " + connector);
 
-            boolean doubleEncrypted = false;
-            int count = 1;
+            int count = 0;
             while (decryptedPass != null) {
               password = decryptedPass;
               decryptedPass = encryptorAesGcm.decrypt(decryptedPass, FIELD_CUSTOMER_ID);
-              doubleEncrypted = true;
               count++;
             }
-            if (!doubleEncrypted) {
+            if (count == 1) {
               logger.info(connector + " : Password is already encrypted ");
             } else {
               logger.info("ERROR: Password encrypted more than once : " + count + " times");
