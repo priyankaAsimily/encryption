@@ -109,7 +109,7 @@ public class EncryptionService {
             }
             if (isDoubleEncrypted) {
               logger.info("Password is encrypted multiple times : " + count);
-              logger.info("The correct password : " + password);
+//              logger.info("The correct password : " + password);
             }
           } else {
             logger.info("Decrypted : " + connector);
@@ -161,6 +161,15 @@ public class EncryptionService {
 
       for (EConnectorsConnectionInfo eConnectorsConnectionInfo : eConnectorsConnectionInfos) {
         logger.info("---------");
+        FileWriter myWriter = null;
+          try {
+            myWriter = new FileWriter("EncryptedConnectors.txt");
+          }
+          catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          }
+
         String pass = eConnectorsConnectionInfo.getPassword();
         final String connector = connectorsDao.findByEConnectorsId(eConnectorsConnectionInfo.getConnectorId()).getConnectorName();
         
@@ -187,6 +196,18 @@ public class EncryptionService {
               if (encryptedText != null && !encryptedText.isEmpty()) {
               eConnectorsConnectionInfo.setPassword(encryptedText);
               // connectorsConnectionInfoDaoManager.saveConnection(eConnectorsConnectionInfo);
+              try {
+                if (myWriter != null) {
+                  myWriter.write("\n ************");
+                  myWriter.write("\n Connector : " + connector);
+                  myWriter.write("\n Password : " + password);
+                  myWriter.write("\n ************ \n");
+                }
+              }
+              catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+              }
               logger.info(connector + " : Password encrypted and saved");
               }
             }
