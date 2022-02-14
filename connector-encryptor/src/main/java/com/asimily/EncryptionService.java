@@ -179,7 +179,7 @@ public class EncryptionService {
               count++;
             }
             if (!doubleEncrypted) {
-              logger.info("Password is already encrypted ");
+              logger.info(connector + " : Password is already encrypted ");
             }
             else {
               logger.info("ERROR: Password encrypted more than once : " + count + " times");
@@ -187,12 +187,12 @@ public class EncryptionService {
               if (encryptedText != null && !encryptedText.isEmpty()) {
               eConnectorsConnectionInfo.setPassword(encryptedText);
               // connectorsConnectionInfoDaoManager.saveConnection(eConnectorsConnectionInfo);
-              logger.info("Password encrypted and saved : " + encryptedText);
+              logger.info(connector + " : Password encrypted and saved");
               }
             }
           }
           else {
-            logger.info("Password is not encrypted for " + connector);
+            logger.info(connector + " : Password is not encrypted");
             final String encryptedText = encryptorAesGcm.encryptKeys(pass, FIELD_CUSTOMER_ID);
             if (encryptedText != null && !encryptedText.isEmpty()) {
               eConnectorsConnectionInfo.setPassword(encryptedText);
@@ -202,7 +202,7 @@ public class EncryptionService {
           }
         }
         else if (pass == null || pass.isEmpty()) {
-          logger.info("Password is empty for " + connector);
+          logger.info(connector + " : Password is empty");
         }
       }
     }
