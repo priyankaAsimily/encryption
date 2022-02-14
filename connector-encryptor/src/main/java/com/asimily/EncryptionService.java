@@ -74,7 +74,7 @@ public class EncryptionService {
       }
 
       for (EConnectorsConnectionInfo eConnectorsConnectionInfo : eConnectorsConnectionInfos) {
-        logger.info("************");
+        logger.info("---------");
         final int id = eConnectorsConnectionInfo.getId();
         final String connector = connectorsDao.findByEConnectorsId(eConnectorsConnectionInfo.getConnectorId()).getConnectorName();
         final String host1 = eConnectorsConnectionInfo.getHost1();
@@ -183,16 +183,12 @@ public class EncryptionService {
             }
             else {
               logger.info("ERROR: Password encrypted more than once : " + count + " times");
-              // Show error or fix.
-              /** logger.info("AAA unencrypted password : " + password);
               final String encryptedText = encryptorAesGcm.encryptKeys(password, FIELD_CUSTOMER_ID);
               if (encryptedText != null && !encryptedText.isEmpty()) {
-              System.out.println("***********************");
               eConnectorsConnectionInfo.setPassword(encryptedText);
               // connectorsConnectionInfoDaoManager.saveConnection(eConnectorsConnectionInfo);
               logger.info("Password encrypted and saved : " + encryptedText);
-              System.out.println("***********************");
-              } **/
+              }
             }
           }
           else {
