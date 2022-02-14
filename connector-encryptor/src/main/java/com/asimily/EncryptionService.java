@@ -167,7 +167,7 @@ public class EncryptionService {
           String decryptedPass = encryptorAesGcm.decrypt(eConnectorsConnectionInfo.getPassword(), FIELD_CUSTOMER_ID);
           if (decryptedPass != null && !decryptedPass.isEmpty()) {
             String password = decryptedPass;
-            logger.info("Password is encrypted multiple times :  ");
+            logger.info("Connector :  " + connector);
 
             boolean doubleEncrypted = false;
             int count = 1;
@@ -176,12 +176,11 @@ public class EncryptionService {
               decryptedPass = encryptorAesGcm.decrypt(decryptedPass, FIELD_CUSTOMER_ID);
               doubleEncrypted = true;
             }
-            logger.info("Encrypted : " + count + " times.");
             if (!doubleEncrypted) {
               logger.info("Password is already encrypted ");
             }
             else {
-              logger.info("Error: Password encrypted more than once");
+              logger.info("Error: Password encrypted more than once : " + count + " times");
               // Show error or fix.
               /** logger.info("AAA unencrypted password : " + password);
               final String encryptedText = encryptorAesGcm.encryptKeys(password, FIELD_CUSTOMER_ID);
