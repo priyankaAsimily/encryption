@@ -114,7 +114,7 @@ public class EncryptionService {
           }
         }
         else {
-          logger.info("Password is not encrypted");
+          logger.info("Password is not encrypted for connector : " + connector);
         }
 
         try {
@@ -124,7 +124,7 @@ public class EncryptionService {
             myWriter.write("\n Connector connection info id : " + id);
             myWriter.write("\n Configuration : " + configuration);
             myWriter.write("\n User name : " + userName);
-            myWriter.write("\n Password : " + decryptedPass);
+            myWriter.write("\n Password : " + password);
             myWriter.write("\n host1 : " + host1);
             myWriter.write("\n host2 : " + host2);
             myWriter.write("\n certficatePass : " + certficatePass);
