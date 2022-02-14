@@ -97,7 +97,7 @@ public class EncryptionService {
           decryptedPass = encryptorAesGcm.decrypt(eConnectorsConnectionInfo.getPassword(), FIELD_CUSTOMER_ID);
           if (decryptedPass != null && !decryptedPass.isEmpty()) {
             password = decryptedPass;
-            logger.info("Checking... " + eConnectorsConnectionInfo.getId());
+            logger.info("Checking... " + connector);
 
             boolean doubleEncrypted = false;
             int count = 1;
@@ -160,13 +160,14 @@ public class EncryptionService {
 
       for (EConnectorsConnectionInfo eConnectorsConnectionInfo : eConnectorsConnectionInfos) {
         String pass = eConnectorsConnectionInfo.getPassword();
-
+        final String connector = connectorsDao.findByEConnectorsId(eConnectorsConnectionInfo.getConnectorId()).getConnectorName();
+        
         if (eMasterKeys != null && eCustomerKeys != null && pass != null && !pass.isEmpty()) {
           // Check if password encrypted
           String decryptedPass = encryptorAesGcm.decrypt(eConnectorsConnectionInfo.getPassword(), FIELD_CUSTOMER_ID);
           if (decryptedPass != null && !decryptedPass.isEmpty()) {
             String password = decryptedPass;
-            logger.info("Checking... " + eConnectorsConnectionInfo.getId());
+            logger.info("Checking... " + connector);
 
             boolean doubleEncrypted = false;
             int count = 1;
