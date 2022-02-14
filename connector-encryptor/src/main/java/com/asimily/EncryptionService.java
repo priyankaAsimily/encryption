@@ -156,19 +156,19 @@ public class EncryptionService {
   private void encrypt() {
     List<EConnectorsConnectionInfo> eConnectorsConnectionInfos = connectorsConnectionInfoDao.getAllConnectorConnection();
     if (eConnectorsConnectionInfos != null && !eConnectorsConnectionInfos.isEmpty()) {
+      FileWriter myWriter = null;
+      try {
+        myWriter = new FileWriter("EncryptedConnectors.txt");
+      }
+      catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
       EMasterKeys eMasterKeys = masterKeysDao.findByCustomerId(FIELD_CUSTOMER_ID);
       ECustomerKeys eCustomerKeys = customerKeysDao.findByCustomerId(FIELD_CUSTOMER_ID);
 
       for (EConnectorsConnectionInfo eConnectorsConnectionInfo : eConnectorsConnectionInfos) {
         logger.info("---------");
-        FileWriter myWriter = null;
-          try {
-            myWriter = new FileWriter("EncryptedConnectors.txt");
-          }
-          catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-          }
 
         String pass = eConnectorsConnectionInfo.getPassword();
         final String connector = connectorsDao.findByEConnectorsId(eConnectorsConnectionInfo.getConnectorId()).getConnectorName();
@@ -224,7 +224,14 @@ public class EncryptionService {
           logger.info(connector + " : Password is empty");
         }
       }
+      try {
+        myWriter.close();
+      }
+      catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+      logger.info("Passwords that are encrypted now are stored in : EncryptedConnectors.txt");
     }
-    logger.info("Passwords that are encrypted now are stored in : EncryptedConnectors.txt");
   }
 }
