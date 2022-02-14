@@ -85,8 +85,8 @@ public class EncryptionService {
         final String certficateFilePath = eConnectorsConnectionInfo.getCertificateClientFilename();
         final String certficateClientFilePath = eConnectorsConnectionInfo.getCertificateClientFilename();
         final String port = eConnectorsConnectionInfo.getPort().toString();
-        final String transport = eConnectorsConnectionInfo.getTransport().toString();
-        final String configuration = eConnectorsConnectionInfo.getConfiguration();
+        final String transport = eConnectorsConnectionInfo.getTransport() != null ? eConnectorsConnectionInfo.getTransport().toString() : "";
+        final String configuration = eConnectorsConnectionInfo.getConfiguration() != null ? eConnectorsConnectionInfo.getConfiguration().toString() : "";
 
         EMasterKeys eMasterKeys = masterKeysDao.findByCustomerId(FIELD_CUSTOMER_ID);
         ECustomerKeys eCustomerKeys = customerKeysDao.findByCustomerId(FIELD_CUSTOMER_ID);
